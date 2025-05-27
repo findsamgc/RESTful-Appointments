@@ -1,6 +1,5 @@
 import { isValidId } from "~/db/util";
 import User from "~/db/schemas/user";
-import user, { userSchema } from "~/db/schemas/user";
 
 export const getRequestById = async (id: string) => {
   isValidId(id);
