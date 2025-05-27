@@ -8,13 +8,12 @@ import db from "~/db";
 
 (async () => {
   try {
-    const PORT = env.PORT;
     const app = express();
     await db.init();
 
     app.use(
       cors({
-        origin: ["localhost:3000"],
+        origin: [env.FRONTEND_URI],
         credentials: true,
       })
     );
@@ -30,7 +29,7 @@ import db from "~/db";
       });
     });
 
-    app.listen(PORT, async () => {
+    app.listen(env.PORT, async () => {
       console.log("SERVER: ✅");
       console.log("DATABASE:", db.isConnected ? "✅" : "❌");
     });
