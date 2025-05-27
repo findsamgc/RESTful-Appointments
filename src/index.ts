@@ -1,10 +1,10 @@
 import "dotenv/config";
-import express, { Request, Response, NextFunction } from "express";
+import db from "~/db";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 import env from "~/config";
 import appointments from "~/routes";
-import db from "~/db";
+import cookieParser from "cookie-parser";
+import express, { Request, Response } from "express";
 
 (async () => {
   try {
@@ -23,17 +23,17 @@ import db from "~/db";
     app.use(express.urlencoded({ extended: true }));
     app.use("/api/v1/appointments/", appointments);
 
-    app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    app.use((err: Error, _: Request, res: Response) => {
       res.status(500).json({
         message: err instanceof Error ? err.message : "Unknown error",
       });
     });
 
     app.listen(env.PORT, async () => {
-      console.log("SERVER: ✅");
-      console.log("DATABASE:", db.isConnected ? "✅" : "❌");
+      console.log("Server Status: ✅");
+      console.log("DB Status:", db.isConnected ? "✅" : "❌");
     });
   } catch (error) {
-    console.error("Error starting the server:", error);
+    console.error("❌ Error:", error);
   }
 })();
